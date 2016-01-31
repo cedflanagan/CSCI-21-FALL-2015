@@ -70,13 +70,13 @@ double LaunchHumanCannonball(double initial_velocity, double launch_angle) {
   //     [y_velocity = initial_velocity * sin(radian_angle) * -1]
   // CODE HERE
   
-  double y_velocity = y_velocity = initial_velocity * sin(radian_angle) * (-1);
+  double y_velocity = initial_velocity * sin(radian_angle) * -1;
 
   // (4) Compute time of flight
   //     [flight_time = (y_velocity) * 2 / -9.8]
   // CODE HERE
   
-  double flight_time = (y_velocity) * 2 / -9.8;
+  double flight_time = y_velocity * 2 / -9.8;
 
   // (5) Compute horizontal/x distance traveled
   //     [x_distance = x_velocity * flight_time]
