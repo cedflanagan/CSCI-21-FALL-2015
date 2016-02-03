@@ -100,6 +100,7 @@ int RockScissorPaper(char player_one, char player_two) {
   
   int outcome = 0;
   
+  /*
   if (islower(player_one))
   {
     player_one = ToUpper(player_one)
@@ -109,6 +110,7 @@ int RockScissorPaper(char player_one, char player_two) {
   {
     player_two = ToUpper(player_two)
   }
+  */
   
   switch (player_one)
   {
@@ -194,7 +196,9 @@ string ToLower(string input) {
   
   string lower_string;
   
-  for (i = 0; i < input.length(); i++)
+  int how_long = input.length();
+  
+  for (int i = 0; i < how_long; i++)
   {
       lower_string[i] = tolower(input[i]);
   }
@@ -212,10 +216,32 @@ string ToUpper(string input) {
     
   string upper_string;
   
-  for (i = 0; i < input.length(); i++)
+  int how_long = input.length();
+  
+  for (int i = 0; i < how_long; i++)
   {
     upper_string[i] = toupper(input[i]);
   }
   
   return upper_string;
 }
+
+/*
+int main()
+{
+  cout << "Goldilocks tried the second Porridge: " << Goldilocks("porridge", 2) << endl;
+  
+  cout << "Goldilocks tried the first Chair: " << Goldilocks("chair", 1) << endl;
+  
+  cout << "Goldilocks tried the third Bed: " << Goldilocks("Bed", 3) << endl;
+
+  cout << "Goldilocks tried the twelfth Coatrack: " << Goldilocks("coatrack", 12) << endl;
+  
+  cout << " Rock and Scissors are thrown: Player " << RockScissorPaper('R', 's') << " wins." << endl;
+  
+  cout << " Paper and Scissors are thrown: Player " << RockScissorPaper('p', 'S') << " wins." << endl;
+
+  cout << " Paper and Paper are thrown: Player " << RockScissorPaper('P', 'p') << " wins." << endl;
+
+}
+/*
