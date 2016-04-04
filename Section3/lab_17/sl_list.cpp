@@ -39,7 +39,7 @@ void SLList::InsertTail(int contents)
     
     if(tail_ != NULL)
     {
-    tail_->set_next_node(temp_);
+        tail_->set_next_node(temp_);
     }
     
     tail_ = temp_;
@@ -48,6 +48,8 @@ void SLList::InsertTail(int contents)
     {
         head_ = tail_;
     }
+    
+    size_ += 1;
 }
 
 void SLList::RemoveHead()
@@ -57,16 +59,22 @@ void SLList::RemoveHead()
         return;
     }
     
-    SLNode* temp_ = head_;
-    head_ = head_->next_node();
-    delete temp_;
+    else
+    {
+        SLNode* temp_ = head_;
+        head_ = head_->next_node();
+        delete temp_;
+    }
     
     size_ -= 1;
+        
     
     if(size_ == 0)
     {
+        head_ = NULL;
         tail_ = NULL;
     }
+    
 }
 
 void SLList::RemoveTail()
@@ -76,16 +84,34 @@ void SLList::RemoveTail()
         return;
     }
     
-    SLNode* iterator_ = head_;
-    
-    while(iterator_->next_node() != tail_)
+    else if(head_ == tail_)
     {
-        iterator_ = iterator_->next_node();
+        delete head_;
     }
     
-    delete tail_;
+    else
+    {
+        SLNode* iterator_ = head_;
     
-    tail_ = iterator_;
+        while(iterator_->next_node() != tail_)
+        {
+            iterator_ = iterator_->next_node();
+        }
+        
+        delete tail_;
+        
+        tail_ = iterator_;
+    }
+    
+    size_ -= 1;
+    
+    
+    if(size_ == 0)
+    {
+        head_ = NULL;
+        tail_ = NULL;
+    }
+    
 }
 
 void SLList::Clear()
