@@ -23,9 +23,12 @@ void DLList::pushFront(string contents)
     DLNode* temp_ = new DLNode(contents);
     
     temp_->setNextNode(head_);
-    head_->setPreviousNode(tail_);
+    temp_->setPreviousNode(tail_);
     
+    head_->setPreviousNode(temp_);
     head_ = temp_;
+    
+    tail_->setNextNode(temp_);
     
     if(tail_ == NULL)
     {
@@ -39,13 +42,13 @@ void DLList::pushBack(string contents)
 {
     DLNode* temp_ = new DLNode(contents);
     
-    if(tail_ != NULL)
-    {
-        tail_->setNextNode(temp_);
-        temp_->setPreviousNode(tail_);
-    }
+    temp_->setNextNode(head_);
+    temp_->setPreviousNode(tail_);
     
+    tail_->setNextNode(temp_);
     tail_ = temp_;
+    
+    head_->setPreviousNode(temp_);
     
     if(head_ == NULL)
     {
@@ -64,51 +67,36 @@ void DLList::insert(string contents)
 {
     DLNode* temp_ = new DLNode(contents);
     
-    if(size_ == 0)
+    if(size_ == 0 || head_->getContents() >= temp_->getContents())
     {
-        temp_->setNextNode(head_);
-        head_ = temp_;
-        tail_ = temp_;
-        
-        size_ += 1;
-    }
-    
-    else if(head_->getContents() >= temp_->getContents())
-    {
-        temp_->setNextNode(head_);
-        head_->setPreviousNode(temp_);
-        head_ = temp_;
-    
-        if(temp_->getNextNode() == NULL)
-        {
-            tail_ = temp_;
-        }
-        
-        size_ += 1;
+        pushFront(contents);
     }
     
     else
     {
-        DLNode* iterator_ = head_;
+        DLNode* iterator_ = head_->getNextNode();
         
-        while(iterator_->getNextNode() != NULL
+        while(iterator_->getNextNode() != head_
         && iterator_->getNextNode()->getContents() < temp_->getContents())
         {
             iterator_ = iterator_->getNextNode();
         }
-            
-        temp_->setNextNode(iterator_->getNextNode());
-        temp_->setPreviousNode(iterator_);
-        temp_->getNextNode()->setPreviousNode(temp_);
         
-        iterator_->setNextNode(temp_);
-        
-        if(temp_->getNextNode() == NULL)
+        if(iterator_ == tail_)
         {
-            tail_ = temp_;
+            pushBack(contents);
         }
         
-        size_ += 1;
+        else
+        {
+            temp_->setNextNode(iterator_->getNextNode());
+            temp_->getNextNode()->setPreviousNode(temp_);
+            
+            temp_->setPreviousNode(iterator_);
+            iterator_->setNextNode(temp_);
+            
+            size_ += 1;
+        }
     }
 }
 
@@ -116,7 +104,7 @@ string DLList::getFront() const
 {
     if (head_ == NULL)
     {
-        return 0;
+        return "EMPTY";
     }
     
     return head_->getContents();
@@ -126,7 +114,7 @@ string DLList::getBack() const
 {
     if (tail_ == NULL)
     {
-        return 0;
+        return "EMPTY";
     }
     
     return tail_->getContents();
@@ -139,22 +127,25 @@ bool DLList::get(string search) const
         return false;
     }
     
-    else
+    if(head_->getContents() == search)
     {
-        DLNode* iterator_ = head_;
-        
-        while(iterator_ != NULL)
+        return true;
+    }
+    
+    DLNode* iterator_ = head_->getNextNode();
+    
+    while(iterator_ != head_)
+    {
+        if(iterator_->getContents() == search)
         {
-            if(iterator_->getContents() == search)
-            {
-                return true;
-            }
-            
-            iterator_ = iterator_->getNextNode();
+            return true;
         }
         
-        return false;
+        iterator_ = iterator_->getNextNode();
     }
+    
+    return false;
+    
 }
 
 void DLList::popFront()
@@ -167,7 +158,11 @@ void DLList::popFront()
     else
     {
         DLNode* temp_ = head_;
+        
         head_ = head_->getNextNode();
+        head_->setPreviousNode(tail_);
+        tail_->setNextNode(head_);
+        
         delete temp_;
         
         size_ -= 1;
@@ -191,7 +186,11 @@ void DLList::popBack()
     else
     {
         DLNode* temp_ = tail_;
+        
         tail_ = tail_->getPreviousNode();
+        tail_->setNextNode(head_);
+        head_->setPreviousNode(tail_);
+        
         delete temp_;
         
         size_ -= 1;
@@ -207,35 +206,46 @@ void DLList::popBack()
 
 bool DLList::removeFirst(string search)
 {
-    
     if(size_ == 0)
     {
         return false;
     }
     
-    else
+    if(head_->getContents() == search)
     {
-        DLNode* iterator_ = head_;
+        popFront();
         
-        while(iterator_ != NULL)
+        return true;
+    }
+    
+    DLNode* iterator_ = head_->getNextNode();
+        
+    while(iterator_ != head_)
+    {
+        if(iterator_->getContents() == search)
         {
-            if(iterator_->getContents() == search)
+            if(iterator_ == tail_)
             {
-                iterator_->getPreviousNode()->setNextNode(iterator_->getNextNode());
-                iterator_->getNextNode()->setPreviousNode(iterator_->getPreviousNode());
-                
-                delete iterator_;
-                
-                size_ -= 1;
-                
-                return true;
+                popBack();
             }
             
-            iterator_ = iterator_->getNextNode();
+            else
+            {
+            iterator_->getPreviousNode()->setNextNode(iterator_->getNextNode());
+            iterator_->getNextNode()->setPreviousNode(iterator_->getPreviousNode());
+            
+            delete iterator_;
+            
+            size_ -= 1;
+            }
+            
+            return true;
         }
         
-        return false;
+        iterator_ = iterator_->getNextNode();
     }
+    
+    return false;
 }
 
 bool DLList::removeAll(string search)
@@ -247,56 +257,69 @@ bool DLList::removeAll(string search)
         return false;
     }
     
-    else
+    while(head_->getContents() == search)
     {
-        DLNode* iterator_ = head_;
+        popFront();
         
-        while(iterator_ != NULL)
-        {
-            if(iterator_->getContents() == search)
-            {
-                iterator_->getPreviousNode()->setNextNode(iterator_->getNextNode());
-                iterator_->getNextNode()->setPreviousNode(iterator_->getPreviousNode());
-                
-                delete iterator_;
-                
-                size_ -= 1;
-                
-                success = true;
-            }
-            
-            iterator_ = iterator_->getNextNode();
-        }
-        
-        return success;
-    }
-}
-
-bool DLList::removeChair(int position)
-{
-    if(position > size || size == 0)
-    {
-        return false;
-    }
-    
-    else
-    {
-        DLNode* iterator_ = head_;
-        
-        for(int i = 1; i <= position; i++)
-        {
-            iterator_ = iterator_->getNextNode();
-        }
-    
-        iterator_->getPreviousNode()->setNextNode(iterator_->getNextNode());
-        iterator_->getNextNode()->setPreviousNode(iterator_->getPreviousNode());
-                
-        delete iterator_;
-                
-        size_ -= 1;
-                
         success = true;
     }
+    
+    DLNode* iterator_ = head_->getNextNode();
+    
+    while(iterator_ != head_)
+    {
+        if(iterator_->getContents() == search)
+        {
+            if(iterator_ == tail_)
+            {
+                popBack();
+            }
+            
+        else
+            {
+            iterator_->getPreviousNode()->setNextNode(iterator_->getNextNode());
+            iterator_->getNextNode()->setPreviousNode(iterator_->getPreviousNode());
+            
+            delete iterator_;
+            
+            size_ -= 1;
+            }
+            
+            success = true;
+        }
+        
+        iterator_ = iterator_->getNextNode();
+    }
+    
+    
+    return success;
+}
+
+DLNode* DLList::pullChair(int steps)
+{
+    if(size_ == 0)
+    {
+        DLNode* scratch_ = new DLNode();
+        return scratch_;
+    }
+    
+    DLNode* temp_ = head_;
+    for(int i = 0; i < steps; i++)
+    {
+        temp_ = temp_->getNextNode();
+    }
+    
+    head_ = temp_->getNextNode();
+    tail_ = temp_->getPreviousNode();
+    
+    head_->setPreviousNode(tail_);
+    tail_->setNextNode(head_);
+    
+    DLNode* send_ = temp_;
+    
+    delete temp_;
+    
+    return send_;
 }
 
 void DLList::clear()
@@ -309,7 +332,7 @@ void DLList::clear()
 
 ostream& operator<<(ostream& os, const DLList& src)
 {
-    if(src.head_ == NULL)
+    if(src.size_ == 0)
     {
         os << "";
         

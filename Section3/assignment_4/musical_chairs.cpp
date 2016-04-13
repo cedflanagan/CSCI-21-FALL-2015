@@ -10,76 +10,57 @@
 
 using std::ifstream;
 
-void populateList(DLList& roster, string file, int* numbers)
+void populateList(DLList* play_list, ifstream& file)
 {
-    ifstream ifs.open(file);
+    int num_players_;
     
-    sstream is; //catch integers from file
-    int isc = 0;//count
+    file >> num_players_;
     
-    while(true)
+    for(int i = 0; i < num_players_; i++)
     {
-        if(ifstream::eof(ifs.peek()))
-        {
-            break;
-        }
-         
-        else if(isalpha(ifs.peek())
-        {
-            roster.pushBack(ifs.getline());
-        }
-         
-        else
-        {
-            is << ifs.getline();
-            isc ++;
-        }
+        string player_;
+        file >> player_;
+        
+        play_list->pushBack(player_);
     }
-    
-    numbers = new int[isc];
-    
-    for(int i = 0; i < isc; i++)
-    {
-        is >> numbers[i];
-    }
-    
-    ifs.close();
 }
 
-void playGame(DLList& roster, int* numbers)
+void musicalChairs(DLList* play_list, ifstream& file)
 {
-    cout << "All players, in order:" << endl;
-    cout << roster << endl;
+    cout << "Starting list of players:" << endl << play_list << endl << endl;
     
-    int length = roster.getSize();
-    
-    for(int i = 0; i < length - 1; i++)
+    while(play_list->getSize() > 1)
     {
-        roster.rem
+        int steps_;
+        
+        file >> steps_;
+        
+        cout << "Player " << steps_ << ", " << play_list->pullChair(steps_) <<
+            "has been eliminated." << endl;
+            
+        cout << "Remaining players:" << endl << play_list << endl << endl;
     }
     
+    cout << "The winner is: " << play_list->getFront() << endl << endl;
 }
 
-int MusicalChairs(int argc, char *argv[])
+
+int main(int argc, char *argv[])
 {
-    if(argc != 2)
+    if(argc < 1)
     {
-        cout << "Execuatable must be followed by a single file path." << endl;
-        cout << "Exiting." << endl;
+        cout << "Argument (filename) must be included with executable." << endl;
         
         return 0;
     }
     
-    DLList roster_;
+    ifstream file_(argv[1]);
     
-    string* names_;
-    int* numbers_;
+    DLList* play_list_ = new DLList();
     
-    populateList(roster_, argv[1], names_, numbers_);
+    populateList(play_list_, file_);
     
+    musicalChairs(play_list_, file_);
     
-    
-    
-    
-    
+    return 1;
 }

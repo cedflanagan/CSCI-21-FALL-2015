@@ -7,7 +7,9 @@
 #ifndef DL_NODE_H
 #define DL_NODE_H
 
-#include <cstddef>
+#include <string>
+
+using std::string;
 
 class DLNode
 {
@@ -18,7 +20,7 @@ class DLNode
         ~DLNode();
         
         void setContents(string);
-        int getContents();
+        string getContents();
         
         void setNextNode(DLNode*);
         void setPreviousNode(DLNode*);

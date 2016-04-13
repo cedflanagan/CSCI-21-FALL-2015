@@ -14,14 +14,15 @@
 
 using std::string;
 using std::ostream;
-using std::cout:
+using std::cout;
+using std::endl;
 
 
 class DLList
 {
     
     public:
-        //sets head_ to NULL
+        //sets head_ and tail_ to NULL
         //sets size_ to 0
         DLList();
         ~DLList();
@@ -59,6 +60,11 @@ class DLList
         //data of a node. Return true on successful removal or false if the list
         //is empty or the value is not found.
         bool removeAll(string);
+        
+        //Traverse (parameter) nodes, delete the ending node, and set head_ and
+        //tail_ to the following and preceding node respectively. 
+        //Returns the deleted node.
+        DLNode* pullChair(int);
         
         //Clears the entire contents of the list, freeing all memory associated 
         //with all nodes.
