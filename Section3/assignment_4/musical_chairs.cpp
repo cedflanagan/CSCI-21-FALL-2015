@@ -47,7 +47,7 @@ void musicalChairs(DLList* play_list, ifstream& file)
 
 int main(int argc, char *argv[])
 {
-    if(argc < 1)
+    if(argc < 2)
     {
         cout << "Argument (filename) must be included with executable." << endl;
         

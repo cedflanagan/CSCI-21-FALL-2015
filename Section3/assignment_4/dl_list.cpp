@@ -26,16 +26,23 @@ void DLList::pushFront(string contents)
     temp_->setPreviousNode(tail_);
     
     head_->setPreviousNode(temp_);
+    tail_->setNextNode(temp_);
+    
     head_ = temp_;
     
-    tail_->setNextNode(temp_);
+    size_ += 1;
+    
+    if(size_ == 1)
+    {
+        head_->setNextNode(head_);
+        
+        head_->setPreviousNode(head_);
+    }
     
     if(tail_ == NULL)
     {
         tail_ = head_;
     }
-    
-    size_ += 1;
 }
 
 void DLList::pushBack(string contents)
@@ -46,16 +53,24 @@ void DLList::pushBack(string contents)
     temp_->setPreviousNode(tail_);
     
     tail_->setNextNode(temp_);
+    head_->setPreviousNode(temp_);
+    
     tail_ = temp_;
     
-    head_->setPreviousNode(temp_);
+    size_ += 1;
+    
+    if(size_ == 1)
+    {
+        tail_->setNextNode(tail_);
+        
+        tail_->setPreviousNode(tail_);
+    }
     
     if(head_ == NULL)
     {
         head_ = tail_;
     }
     
-    size_ += 1;
 }
 
 unsigned int DLList::getSize() const
@@ -150,7 +165,7 @@ bool DLList::get(string search) const
 
 void DLList::popFront()
 {
-    if(head_ == NULL)
+    if(size_ == 0)
     {
         return;
     }
@@ -173,12 +188,11 @@ void DLList::popFront()
         head_ = NULL;
         tail_ = NULL;
     }
-    
 }
 
 void DLList::popBack()
 {
-    if(tail_ == NULL)
+    if(size_ == 0)
     {
         return;
     }
@@ -318,6 +332,8 @@ DLNode* DLList::pullChair(int steps)
     DLNode* send_ = temp_;
     
     delete temp_;
+    
+    size_ -= 1;
     
     return send_;
 }
