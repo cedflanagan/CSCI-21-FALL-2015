@@ -1,7 +1,7 @@
 /*
- * Name        : lab_22.h
+ * Name        : lab_20.h
  * Author      : Luke Sathrum
- * Description : Header File for Lab #22. DO NOT ALTER!
+ * Description : Header File for Lab #20. DO NOT ALTER!
  */
 
 #ifndef LAB_H
