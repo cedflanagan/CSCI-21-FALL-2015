@@ -67,7 +67,9 @@ int main()
 	
 		std::cin >> decimal;
 		
-		cout << "In binary: " << decToBin(decimal) << endl;
+		stringstream bin_ = decToBin(decimal);
+		
+		cout << "In binary: " << bin << endl;
 	}
 	
 	while(false)
