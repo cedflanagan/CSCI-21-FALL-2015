@@ -21,14 +21,14 @@ using std::stringstream;
  * @param number to be converted.
  * @return a stringstream.
  */
-stringstream decToBin(int num);
+string decToBin(int);
 
 /*
  * Convert a binary number to decimal
  * @param number to be converted
  * @return an unsigned int
  */
-unsigned int binToDec(string num);
+unsigned int binToDec(string);
 
 
 #endif

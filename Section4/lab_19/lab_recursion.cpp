@@ -16,7 +16,7 @@
  * @param number to be converted.
  * @return a stringstream.
  */
-stringstream decToBin(int num)
+string decToBin(int num)
 {
 	stringstream bin;
 	
@@ -25,9 +25,9 @@ stringstream decToBin(int num)
 		bin << decToBin(num/2); //recursive call
 	}
 	
-	bin<<(num%2); //outputs in correct order
+	bin << (num%2); //outputs in correct order
 	
-	return bin;
+	return bin.str();
 }
 
 unsigned int binToDec(string num)
@@ -59,7 +59,7 @@ unsigned int binToDec(string num)
 
 int main()
 {
-	while(true)
+	do
 	{
 		cout << "Enter a decimal number:" << endl;
 		
@@ -67,12 +67,11 @@ int main()
 	
 		std::cin >> decimal;
 		
-		stringstream bin_ = decToBin(decimal);
-		
-		cout << "In binary: " << bin << endl;
+		cout << "In binary: " << decToBin(decimal) << endl;
 	}
+	while(false);
 	
-	while(false)
+	do
 	{
 		cout << "Enter a binary number:" << endl;
 		
@@ -82,4 +81,5 @@ int main()
 		
 		cout << "In decimal: " << binToDec(binary) << endl;
 	}
+	while(false);
 }
