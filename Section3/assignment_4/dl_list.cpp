@@ -32,13 +32,6 @@ void DLList::pushFront(string contents)
     
     size_ += 1;
     
-    if(size_ == 1)
-    {
-        head_->setNextNode(head_);
-        
-        head_->setPreviousNode(head_);
-    }
-    
     if(tail_ == NULL)
     {
         tail_ = head_;
@@ -58,13 +51,6 @@ void DLList::pushBack(string contents)
     tail_ = temp_;
     
     size_ += 1;
-    
-    if(size_ == 1)
-    {
-        tail_->setNextNode(tail_);
-        
-        tail_->setPreviousNode(tail_);
-    }
     
     if(head_ == NULL)
     {
@@ -91,7 +77,8 @@ void DLList::insert(string contents)
     {
         DLNode* iterator_ = head_->getNextNode();
         
-        while(iterator_->getNextNode() != head_
+        while(iterator_->getNextNode() != NULL
+        &&iterator_->getNextNode() != head_
         && iterator_->getNextNode()->getContents() < temp_->getContents())
         {
             iterator_ = iterator_->getNextNode();
@@ -149,7 +136,8 @@ bool DLList::get(string search) const
     
     DLNode* iterator_ = head_->getNextNode();
     
-    while(iterator_ != head_)
+    while(iterator_ != NULL
+    &&iterator_ != head_)
     {
         if(iterator_->getContents() == search)
         {
@@ -234,7 +222,8 @@ bool DLList::removeFirst(string search)
     
     DLNode* iterator_ = head_->getNextNode();
         
-    while(iterator_ != head_)
+    while(iterator_ != NULL
+    &&iterator_ != head_)
     {
         if(iterator_->getContents() == search)
         {
@@ -280,7 +269,8 @@ bool DLList::removeAll(string search)
     
     DLNode* iterator_ = head_->getNextNode();
     
-    while(iterator_ != head_)
+    while(iterator_ != NULL
+    &&iterator_ != head_)
     {
         if(iterator_->getContents() == search)
         {
@@ -326,14 +316,17 @@ DLNode* DLList::pullChair(int steps)
     head_ = temp_->getNextNode();
     tail_ = temp_->getPreviousNode();
     
-    head_->setPreviousNode(tail_);
-    tail_->setNextNode(head_);
-    
     DLNode* send_ = temp_;
     
     delete temp_;
     
     size_ -= 1;
+    
+    if(size_ > 1)
+    {
+        head_->setPreviousNode(tail_);
+        tail_->setNextNode(head_);
+    }
     
     return send_;
 }
