@@ -1,8 +1,8 @@
-all: lab20	lab20test
+all: lab22	lab22test
 
-lab20test: lab_20.o lab_20_unit_test.o
-	g++ -Wall -g -o lab20test lab_20.o lab_20_unit_test.o
+lab22test: lab_22.o lab_22_unit_test.o
+	g++ -Wall -g -o lab22test lab_22.o lab_22_unit_test.o
 
-lab20: lab_20.cpp lab_20_unit_test.cpp
-	g++ -Wall -g -c lab_20.cpp
-	g++ -Wall -g -c lab_20_unit_test.cpp
+lab22: lab_22.cpp lab_22_unit_test.cpp
+	g++ -Wall -g -c lab_22.cpp
+	g++ -Wall -g -c lab_22_unit_test.cpp
