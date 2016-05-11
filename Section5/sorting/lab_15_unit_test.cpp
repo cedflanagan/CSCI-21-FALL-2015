@@ -241,8 +241,8 @@ TEST_CASE("Shell Sort") {
   }
 }
 
-/*
-TEST_CASE("Algorithmic Test (For correct SWAPS, etc.)") {
+
+TEST_CASE("Algorithmic Test (For correct SWAPS, etc.) 2") {
   int main[5] = { 9, 1, 5, 2, 7 };
   GRADER = true;
   SECTION("InsertionSort({9, 1, 5, 2, 7})") {
@@ -263,7 +263,6 @@ TEST_CASE("Algorithmic Test (For correct SWAPS, etc.)") {
     CHECK(your_swaps.str() == "5 1 9 2 7 \n5 1 9 2 7 \n5 1 7 2 9 \n1 5 7 2 9 \n1 5 7 2 9 \n1 2 5 7 9 \n1 2 5 7 9 \n");
   }
 }
-*/
 
 bool CompareArrays(int array_one[], int array_two[], unsigned int size) {
   for (unsigned int i = 0; i < size; i++)

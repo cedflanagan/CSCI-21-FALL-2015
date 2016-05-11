@@ -37,6 +37,8 @@ int BubbleSort(int the_array[], unsigned int size)
     
     for(unsigned int i = size - 1; i > 0; i--)
     {
+        passes ++;
+        
         for(unsigned int j = 0; j < i; j++)
         {
             if(the_array[j] > the_array[j+1])
@@ -44,8 +46,6 @@ int BubbleSort(int the_array[], unsigned int size)
                 SwapValues(the_array[j], the_array[j+1]);
             }
         }
-        
-        passes ++;
     }
     
     return passes;
@@ -65,6 +65,8 @@ int OptimizedBubbleSort(int the_array[], unsigned int size)
     
     for(unsigned int i = size - 1; i > 0; i--)
     {
+        passes ++;
+        
         bool sorted = true;
         
         for(unsigned int j = 0; j < i; j++)
@@ -75,8 +77,6 @@ int OptimizedBubbleSort(int the_array[], unsigned int size)
                 sorted = false;
             }
         }
-        
-        passes ++;
         
         if(sorted)
         {
@@ -101,7 +101,9 @@ int SelectionSort(int the_array[], unsigned int size)
     
     for(unsigned int i = 0; i < size - 1; i++)
     {
-        int space = i;
+        passes ++;
+        
+        unsigned int space = i;
         
         for(unsigned int j = i + 1; j < size; j++)
         {
@@ -111,9 +113,12 @@ int SelectionSort(int the_array[], unsigned int size)
             }
         }
         
-        SwapValues(the_array[i], the_array[space]);
+        if(space != i)
+        {
+            SwapValues(the_array[i], the_array[space]);
+        }
         
-        passes ++;
+        
     }
     
     return passes;
@@ -127,30 +132,74 @@ int SelectionSort(int the_array[], unsigned int size)
  *               defined as the number of times the outside loop runs. You
  *               should increment your variable once you enter the outside loop.
  */
+
+/*
+int InsertionSort(int the_array[], unsigned int size)
+{
+    
+    int passes = 0;
+    
+    for(unsigned int i = 0; i < size; i++)
+    {
+        int j =i;
+        
+        passes ++;
+        
+        while((j>0)&&(the_array[j] < the_array[j-1]))
+        {
+            SwapValues(the_array[j], the_array[j-1]);
+            
+            j --;
+        }
+    }
+    
+    return passes;
+}
+*/
+
 int InsertionSort(int the_array[], unsigned int size)
 {
     int passes = 0;
     
     for(unsigned int i = 1; i < size; i++)
     {
-        for(unsigned int j = i; j > 0; j--)
+        passes ++;
+        
+        for(unsigned int j = i; j >= 1; j --)
         {
             if(the_array[j] < the_array[j-1])
             {
                 SwapValues(the_array[j], the_array[j-1]);
             }
-            
+              
             else
             {
                 break;
             }
         }
-        
-        passes ++;
     }
     
     return passes;
 }
+
+/*
+int InsertionSort(int the_array[], unsigned int size)
+{
+    int passes = 0;
+    
+    for(unsigned int i = 0; i < size; i++)
+    {
+        passes ++;
+        
+        for(unsigned int j = i; (the_array[j] < the_array[j-1]) && (j > 0); j--)
+        {
+            SwapValues(the_array[j], the_array[j-1]);
+        }
+    }
+    
+    return passes;
+}
+*/
 
 /*
  * Apply the shell sort algorithm to sort an array of integers.
@@ -168,13 +217,18 @@ int ShellSort(int the_array[], unsigned int size)
     
     for(unsigned int h = size/2 ; h >= 1; h = h/2)
     {
+        passes ++;
+        
         for(unsigned int i = h; i < size; i++)
         {
             for(unsigned int j = i; j >= h; j -= h)
             {
                 if(the_array[j] < the_array[j-h])
                 {
-                    SwapValues(the_array[j], the_array[j-h]);
+                    int temp = the_array[j];
+  
+                    the_array[j] = the_array[j-h];
+                    the_array[j-h] = temp;
                 }
                 
                 else
@@ -183,10 +237,8 @@ int ShellSort(int the_array[], unsigned int size)
                 }
             }
             
-           // DisplayArray(the_array);
+            DisplayArray(the_array);
         }
-        
-        passes ++;
     }
     
     return passes;
