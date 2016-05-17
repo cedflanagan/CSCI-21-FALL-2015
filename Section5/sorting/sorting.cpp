@@ -99,7 +99,7 @@ int SelectionSort(int the_array[], unsigned int size)
 {
     int passes = 0;
     
-    for(unsigned int i = 0; i < size - 1; i++)
+    for(unsigned int i = 0; i < size; i++)
     {
         passes ++;
         
@@ -117,8 +117,6 @@ int SelectionSort(int the_array[], unsigned int size)
         {
             SwapValues(the_array[i], the_array[space]);
         }
-        
-        
     }
     
     return passes;
@@ -132,36 +130,11 @@ int SelectionSort(int the_array[], unsigned int size)
  *               defined as the number of times the outside loop runs. You
  *               should increment your variable once you enter the outside loop.
  */
-
-/*
 int InsertionSort(int the_array[], unsigned int size)
 {
-    
     int passes = 0;
     
     for(unsigned int i = 0; i < size; i++)
-    {
-        int j =i;
-        
-        passes ++;
-        
-        while((j>0)&&(the_array[j] < the_array[j-1]))
-        {
-            SwapValues(the_array[j], the_array[j-1]);
-            
-            j --;
-        }
-    }
-    
-    return passes;
-}
-*/
-
-int InsertionSort(int the_array[], unsigned int size)
-{
-    int passes = 0;
-    
-    for(unsigned int i = 1; i < size; i++)
     {
         passes ++;
         
@@ -181,25 +154,6 @@ int InsertionSort(int the_array[], unsigned int size)
     
     return passes;
 }
-
-/*
-int InsertionSort(int the_array[], unsigned int size)
-{
-    int passes = 0;
-    
-    for(unsigned int i = 0; i < size; i++)
-    {
-        passes ++;
-        
-        for(unsigned int j = i; (the_array[j] < the_array[j-1]) && (j > 0); j--)
-        {
-            SwapValues(the_array[j], the_array[j-1]);
-        }
-    }
-    
-    return passes;
-}
-*/
 
 /*
  * Apply the shell sort algorithm to sort an array of integers.
